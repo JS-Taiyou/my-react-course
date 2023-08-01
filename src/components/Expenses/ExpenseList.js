@@ -1,31 +1,34 @@
 import "./ExpenseList.css";
 import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
+import ExpensesFilter from "./ExpensesFilter";
+import {useState} from "react";
 
 function ExpenseList({ expenses }) {
+    // We need state at this level so we can use it to toggle each expense's visibility
+    const [selectedYear, filterByYear] = useState('');
+
+    const expenseList = expenses.map((expense, index) => {
+        return (
+            <ExpenseItem key={index}
+                title={expense.title}
+                amount={expense.amount}
+                date={expense.date}
+                visible={expense.date.getFullYear().toString() === selectedYear || selectedYear === ''}
+            />
+        );
+    });
+    if(expenseList.every(ex => !ex.props.visible)) {
+        expenseList.push(<p style={{color: 'white', fontWeight: 'bold'}}>No expenses belong to the selected year.</p>)
+    }
   return (
-    <Card className="expenses">
-      <ExpenseItem
-        title={expenses[0].title}
-        amount={expenses[0].amount}
-        date={expenses[0].date}
-      />
-      <ExpenseItem
-        title={expenses[1].title}
-        amount={expenses[1].amount}
-        date={expenses[1].date}
-      />
-      <ExpenseItem
-        title={expenses[2].title}
-        amount={expenses[2].amount}
-        date={expenses[2].date}
-      />
-      <ExpenseItem
-        title={expenses[3].title}
-        amount={expenses[3].amount}
-        date={expenses[3].date}
-      />
-    </Card>
+
+    <div>
+        <ExpensesFilter selectedYear={selectedYear} onSelectValue={filterByYear}/>
+        <Card className="expenses">
+            {expenseList}
+        </Card>
+    </div>
   );
 }
 

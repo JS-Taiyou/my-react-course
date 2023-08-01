@@ -10,7 +10,7 @@ function ExpenseItem(props) {
             setTitle('Clicked');
         }
         return (
-            <Card className="expense-item">
+            <Card className={"expense-item" + (!props.visible ? ' d-none' : '') }>
                 <ExpenseDate date={props.date}/>
                 <div className="expense-item__description">
                     <h2>{title}</h2>
