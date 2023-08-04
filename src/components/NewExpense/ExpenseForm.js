@@ -6,12 +6,7 @@ const ExpenseForm = (props) => {
         enteredAmount: '',
         enteredDate: ''
     });
-    const [formShown, setFormVisibility] = useState(false);
-    const toggleFormVisibility = () => {
-        setFormVisibility((prevState)=>{
-            return !prevState;
-        });
-    }
+
     const userInputHandler = (event) => {
         setUserInput((prevState)=>{
             const newValues = {...prevState};
@@ -26,13 +21,12 @@ const ExpenseForm = (props) => {
             const currentValues = {...prevState};
             if(!Object.keys(currentValues).find((key)=> !currentValues[key].length)){
                 const expenseData = {
-                    id: Math.random(),
                     title: currentValues.enteredTitle,
                     amount: parseInt(currentValues.enteredAmount),
                     date: new Date(currentValues.enteredDate)
                 }
                 props.onSaveExpenseData(expenseData);
-                toggleFormVisibility();
+                props.onToggle();
                 return {
                     enteredTitle: '',
                     enteredAmount: '',
@@ -45,30 +39,26 @@ const ExpenseForm = (props) => {
 
         });
     }
-    if (formShown) {
-        return <form onSubmit={submitHandler}>
-            <div className="new-expense__controls">
-                <div className="new-expense__control">
-                    <label>Title</label>
-                    <input type="text" id="enteredTitle" onChange={userInputHandler} value={userInput.enteredTitle}/>
-                </div>
-                <div className="new-expense__control">
-                    <label>Amount</label>
-                    <input type="number" id="enteredAmount" min="0.01" step="0.01" onChange={userInputHandler} value={userInput.enteredAmount} />
-                </div>
-                <div className="new-expense__control">
-                    <label>Date</label>
-                    <input type="date" id="enteredDate" min="2023-01-01" max="2023-11-25" onChange={userInputHandler} value={userInput.enteredDate} />
-                </div>
+    return <form onSubmit={submitHandler}>
+        <div className="new-expense__controls">
+            <div className="new-expense__control">
+                <label>Title</label>
+                <input type="text" id="enteredTitle" onChange={userInputHandler} value={userInput.enteredTitle}/>
             </div>
-            <div className="new-expense__actions">
-                <button type="button" onClick={toggleFormVisibility}>Cancel</button>
-                <button type="submit">Add Expense</button>
+            <div className="new-expense__control">
+                <label>Amount</label>
+                <input type="number" id="enteredAmount" min="0.01" step="0.01" onChange={userInputHandler} value={userInput.enteredAmount} />
             </div>
-        </form>
-    } else {
-        return <button className="new-expense" onClick={toggleFormVisibility}>Add new expense</button>;
-    }
+            <div className="new-expense__control">
+                <label>Date</label>
+                <input type="date" id="enteredDate" min="2023-01-01" max="2023-11-25" onChange={userInputHandler} value={userInput.enteredDate} />
+            </div>
+        </div>
+        <div className="new-expense__actions">
+            <button type="button" onClick={props.onToggle}>Cancel</button>
+            <button type="submit">Add Expense</button>
+        </div>
+    </form>
 };
 
 export default ExpenseForm;
