@@ -10,14 +10,16 @@ function ExpenseItem(props) {
             setTitle('Clicked');
         }
         return (
-            <Card className={"expense-item" + (!props.visible ? ' d-none' : '') }>
-                <ExpenseDate date={props.date}/>
-                <div className="expense-item__description">
-                    <h2>{title}</h2>
-                    <div className="expense-item__price">${props.amount}</div>
-                </div>
-                <button onClick={updateTitle}>Change title</button>
-            </Card>
+            <li>
+                <Card className={"expense-item"}>
+                    <ExpenseDate date={props.date}/>
+                    <div className="expense-item__description">
+                        <h2>{title}</h2>
+                        <div className="expense-item__price">${props.amount}</div>
+                    </div>
+                    <button onClick={updateTitle}>Change title</button>
+                </Card>
+            </li>
         );
     } else {
         return <div>Either title or amount given with wrong type</div>;

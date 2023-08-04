@@ -1,9 +1,9 @@
-import ExpenseList from "./components/Expenses/ExpenseList";
+import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 import {useState} from "react";
 
 function App() {
-    const expenses = [
+    const DUMMY_EXPENSES = [
         {
             id: "e1",
             title: "Car Insurance",
@@ -29,18 +29,16 @@ function App() {
             date: new Date("07/01/2022"),
         },
     ];
-    const [expenseCollection, setExpenses] = useState(expenses);
+    const [expenseCollection, setExpenses] = useState(DUMMY_EXPENSES);
     const expenseHandler = (expense) => {
         setExpenses((currentCollection) => {
-            const newCollection = [...currentCollection];
-            newCollection.push(expense);
-            return newCollection;
+           return [expense, ...currentCollection];
         });
     }
     return (
         <div>
             <NewExpense saveHandler={expenseHandler}/>
-            <ExpenseList expenses={expenseCollection}></ExpenseList>
+            <Expenses expenseArray={expenseCollection}></Expenses>
         </div>
     );
 }
