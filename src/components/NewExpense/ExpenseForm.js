@@ -17,27 +17,22 @@ const ExpenseForm = (props) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        setUserInput((prevState)=>{
-            const currentValues = {...prevState};
-            if(!Object.keys(currentValues).find((key)=> !currentValues[key].length)){
-                const expenseData = {
-                    title: currentValues.enteredTitle,
-                    amount: parseInt(currentValues.enteredAmount),
-                    date: new Date(currentValues.enteredDate)
-                }
-                props.onSaveExpenseData(expenseData);
-                props.onToggle();
-                return {
-                    enteredTitle: '',
-                    enteredAmount: '',
-                    enteredDate: ''
-                };
-            } else {
-                alert("Please fill all the fields");
-                return currentValues;
+        if(!Object.keys(userInput).find((key)=> !userInput[key].length)){
+            const expenseData = {
+                title: userInput.enteredTitle,
+                amount: parseInt(userInput.enteredAmount),
+                date: new Date(userInput.enteredDate)
             }
-
-        });
+            props.onSaveExpenseData(expenseData);
+            return {
+                enteredTitle: '',
+                enteredAmount: '',
+                enteredDate: ''
+            };
+        } else {
+            alert("Please fill all the fields");
+            return userInput;
+        }
     }
     return <form onSubmit={submitHandler}>
         <div className="new-expense__controls">

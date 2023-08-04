@@ -14,6 +14,7 @@ const NewExpense = (props) => {
             id: Math.random().toString()
         }
         props.saveHandler(expenseData);
+        toggleFormVisibility();
     }
 
     return (
